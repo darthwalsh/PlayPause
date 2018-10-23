@@ -3,7 +3,7 @@ function $(id) {
 }
 
 function createAudio() {
-  var audio = $("audio");
+  let audio = $("audio");
   if (audio) {
     audio.parentNode.removeChild(audio);
   }
@@ -23,6 +23,13 @@ function createAudio() {
 
 window.onload = () => {
   $("input").addEventListener("input", createAudio);
+
+  const params = new URLSearchParams(window.location.search);
+  const fileParam = params.get("file");
+  if (fileParam) {
+    $("input").value = fileParam;
+    createAudio();
+  }
 
   $("clear").addEventListener("click", () => {
     if (!prompt("are you sure?")) return;
