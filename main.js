@@ -13,6 +13,11 @@ function createAudio() {
   audio.setAttribute("controls", "");
   audio.setAttribute("src", $("input").value);
 
+  const time = localStorage.getItem("time");
+  if (time) {
+    audio.currentTime = +time;
+  }
+
   audio.addEventListener("play", () => {
     $("abc").innerText += "\n" + audio.currentTime;
     localStorage.setItem("abc", $("abc").innerText);
@@ -36,7 +41,18 @@ window.onload = () => {
 
     $("abc").innerText = "";
     localStorage.setItem("abc", "");
+    $("audio").currentTime = 0;
+    localStorage.setItem("time", 0);
   })
 
   $("abc").innerText = localStorage.getItem("abc") || "";
+
+  window.setInterval(() => {
+    let audio = $("audio");
+    if (audio) {
+      localStorage.setItem("time", audio.currentTime);
+    }
+  }, 3000);
 };
+
+// TODO? give choices for playbackRate of 1.2x, etc
